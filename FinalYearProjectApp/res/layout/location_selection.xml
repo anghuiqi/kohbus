@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText1"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="26dp"
+        android:text="Location Points"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ToggleButton
+        android:id="@+id/singleReturnTrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/destination1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:text="ToggleButton"
+        android:textOff="SingleTrip"
+        android:textOn="ReturnTrip" />
+    
+    <Button
+        android:id="@+id/NextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:text="Next" />
+
+    <EditText
+        android:id="@+id/departure1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/locationText"
+        android:layout_below="@+id/locationText"
+        android:ems="10"
+        android:hint="Enter your departure location" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/destination1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/departure1"
+        android:layout_below="@+id/departure1"
+        android:ems="10"
+        android:hint="Enter your destination " />
+
+    <EditText
+        android:id="@+id/departureReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/destinationReturn"
+        android:layout_below="@+id/singleReturnTrip"
+        android:ems="10"
+        android:hint="Departure location for return trip" />
+
+    <EditText
+        android:id="@+id/destinationReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/destination1"
+        android:layout_below="@+id/departureReturn"
+        android:ems="10"
+        android:hint="Destination for return trip" />
+
+</RelativeLayout>
