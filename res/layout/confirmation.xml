@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/confirmation"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+	<!-- start of step 1 -->
+    <TextView
+        android:id="@+id/step1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:text=" Step 1: " />
+    <TextView
+        android:id="@+id/noPassenger"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" No. of passengers " />
+    <TextView
+        android:id="@+id/departLoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Departure Location " />
+    <TextView
+        android:id="@+id/destLoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Destination Location " />
+    <!-- end of step 1 -->
+    <!-- start of step 2 -->
+    <TextView
+        android:id="@+id/step2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Step 2: " />
+    <TextView
+        android:id="@+id/startDT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Start Date and Time " />
+
+    <!-- end of step 2 -->
+    <!-- start of step 3 -->
+    <TextView
+        android:id="@+id/step3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Step 3: " />
+     <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Name" />
+     <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Number " />
+     <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Email" />
+     <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Comments" />
+    <!-- end of step 3 -->
+    <!-- start of calculation price --> 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Estimated Quotation: " />
+    <!-- end of calculation price -->
+    
+ 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </LinearLayout>
+
+
+
+</LinearLayout>

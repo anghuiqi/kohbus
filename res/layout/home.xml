@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+   
+	<Button
+    	 android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:text="View Buses"
+         android:id="@+id/viewBuses"   
+         android:textSize="30dip" 
+    />     
+	
+	<Button
+    	 android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:text="Make A Booking"
+         android:id="@+id/makeABooking"
+         android:textSize="30dip"
+    />
+        
+	<LinearLayout
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:id="@+id/panel1"
+         android:background="#ff444444"
+         >
+         
+	<Button
+    	 android:layout_width="wrap_content"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:text="Time Based Booking"
+         android:textSize="35dip"
+         android:textColor="#ffffff"
+         android:layout_marginTop="5dip"
+         android:id="@+id/timeBasedBooking"
+   	/>
+	    
+	<Button
+    	 android:layout_width="wrap_content"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:text="Trip Based Booking"
+         android:textSize="35dip"
+         android:textColor="#ffffff"
+         android:layout_marginTop="5dip"
+         android:id="@+id/tripBasedBooking"
+   	/>
+	</LinearLayout>
+
+	<Button
+	    android:id="@+id/bkgHistory"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Booking History"
+	    android:textSize="30dip" />
+
+</LinearLayout>
+ 
