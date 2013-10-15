@@ -1,4 +1,4 @@
-package com.kohbus;
+package com.example.kohbusidp;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,6 @@ import android.widget.*;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
-import com.kohbus.SessionManagement;
 
 @SuppressWarnings("deprecation")
 public class MakeABookingActivity extends TabActivity{

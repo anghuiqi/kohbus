@@ -8,4 +8,6 @@
         <item>Trip-Based Booking</item>
         <item>Time-Based Booking</item>
     </string-array>
+    
+    <string name="error_field_required">This field is required</string>
 </resources>
