@@ -37,7 +37,7 @@
 				       android:ems="10"
 				       android:hint="Number of passengers"
 				       android:inputType="number"  
-				       android:background="@layout/rounded_edittext"/>
+				       android:background="@layout/templete"/>
 					<!-- end of no. of passengers textbox -->
 					
 					<!-- start of departure location textbox -->
@@ -50,38 +50,38 @@
 				        android:layout_height="wrap_content"
 				        android:ems="10"
 				        android:hint="Departure location"
-				        android:inputType="number"  
-				        android:background="@layout/rounded_edittext"/>	
+				        android:background="@layout/templete"/>	
 				    <!-- end of departure location textbox -->
+					<LinearLayout android:id="@+id/moreLocationll"  
+						android:orientation="vertical"
+						android:layout_width="match_parent"  
+						android:layout_height="wrap_content">
+						
+					</LinearLayout>
+					<!-- start of add location button -->
+					<Button
+					    android:id="@+id/addLoc"
+					    android:layout_width="match_parent"
+					    android:layout_height="50dp"
+					    android:layout_marginLeft="30dp"
+					    android:layout_marginRight="30dp"
+					    android:layout_marginTop="10dp"
+					    android:text="Add Location" 
+					    android:background="@layout/templete"/>
+				    <!-- end of add location button -->
 				    
 					<!-- start of destination location textbox -->
-					<RelativeLayout android:layout_width="fill_parent"
-					    android:layout_height="wrap_content">
-					    <Button android:id="@+id/deleteButtton"
-					        android:layout_width="30dp"
-					        android:layout_height="30dp"
-					        android:layout_alignParentLeft="true"
-					        android:layout_centerVertical="true"
-					        android:layout_marginLeft="10dp" />
-					    <EditText  android:id="@+id/destinationLoc"
-					        android:layout_width="match_parent"
-					        android:layout_height="wrap_content"
-					        android:layout_centerVertical="true"
-					        android:layout_marginLeft="30dp"
-					        android:layout_marginRight="30dp"
-					        android:layout_marginTop="10dp"
-					        android:background="@layout/rounded_edittext"
-					        android:ems="10"
-					        android:hint="Destination Location"
-					        android:inputType="number"
-					        android:padding="10dip" />
-					    <Button android:id="@+id/addButtton"
-					        android:layout_width="30dp"
-					        android:layout_height="30dp"
-					        android:layout_alignParentRight="true"
-					        android:layout_centerVertical="true"
-					        android:layout_marginRight="10dp" />
-					</RelativeLayout>
+				    <EditText  android:id="@+id/destinationLoc"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_centerVertical="true"
+				        android:layout_marginLeft="30dp"
+				        android:layout_marginRight="30dp"
+				        android:layout_marginTop="10dp"
+				        android:background="@layout/templete"
+				        android:ems="10"
+				        android:hint="Destination Location"
+				        android:padding="10dip" />
 					<!-- end of destination location textbox -->  
 					
 					<!-- start of the switch button - single/returen trip -->
@@ -104,43 +104,42 @@
 				        android:layout_height="wrap_content"
 				        android:ems="10"
 				        android:hint="Departure location"
-				        android:inputType="number"  
-				        android:background="@layout/rounded_edittext"
-				        android:visibility="invisible"/>	
+				        android:background="@layout/templete"
+				        android:visibility="gone"/>	
 				    <!-- end of departure location textbox for returen trip -->
-				    
+				    <LinearLayout android:id="@+id/moreLocationReturnll"  
+						android:orientation="vertical"
+						android:layout_width="match_parent"  
+						android:layout_height="wrap_content"
+						android:visibility="gone">
+						
+					</LinearLayout>
+					<!-- start of add location button -->
+					<Button
+					    android:id="@+id/addLocReturn"
+					    android:layout_width="match_parent"
+					    android:layout_height="50dp"
+					    android:layout_marginLeft="30dp"
+					    android:layout_marginRight="30dp"
+					    android:layout_marginTop="10dp"
+					    android:text="Add Location" 
+					    android:visibility="gone"
+					    android:background="@layout/templete"/>
+				    <!-- end of add location button -->
 					<!-- start of destination location textbox for returen trip-->
-					<RelativeLayout android:layout_width="fill_parent"
-					    android:layout_height="wrap_content">
-					    <Button android:id="@+id/deleteButttonReturn"
-					        android:layout_width="30dp"
-					        android:layout_height="30dp"
-					        android:layout_alignParentLeft="true"
-					        android:layout_centerVertical="true"
-					        android:layout_marginLeft="10dp" 
-					        android:visibility="invisible"/>
-					    <EditText  android:id="@+id/destinationLocReturn"
-					        android:layout_width="match_parent"
-					        android:layout_height="wrap_content"
-					        android:layout_centerVertical="true"
-					        android:layout_marginLeft="30dp"
-					        android:layout_marginRight="30dp"
-					        android:layout_marginTop="10dp"
-					        android:background="@layout/rounded_edittext"
-					        android:ems="10"
-					        android:hint="Destination Location"
-					        android:inputType="number"
-					        android:padding="10dip" 
-					        android:visibility="invisible"/>
-					    <Button  android:id="@+id/addButttonReturn"
-					        android:layout_width="30dp"
-					        android:layout_height="30dp"
-					        android:layout_alignParentRight="true"
-					        android:layout_centerVertical="true"
-					        android:layout_marginRight="10dp" 
-					        android:visibility="invisible"/>
-					</RelativeLayout>
-					<!-- end of destination location textbox --> 
+				    <EditText  android:id="@+id/destinationLocReturn"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_centerVertical="true"
+				        android:layout_marginLeft="30dp"
+				        android:layout_marginRight="30dp"
+				        android:layout_marginTop="10dp"
+				        android:background="@layout/templete"
+				        android:ems="10"
+				        android:hint="Destination Location"
+				        android:padding="10dip" 
+				        android:visibility="gone"/>
+				<!-- end of destination location textbox --> 
 				</LinearLayout>  
 			</ScrollView>
 		    
@@ -175,7 +174,7 @@
 					       android:layout_height="wrap_content"
 					       android:ems="10"
 					       android:editable="false"
-					       android:background="@layout/rounded_edittext"/>
+					       android:background="@layout/templete"/>
 					   	<!-- end of start time edit box -->
 					   	
 					   	<!-- start of end time-->
@@ -186,7 +185,7 @@
 						    android:layout_marginRight = "30dp"
 					        android:layout_marginLeft = "30dp"
 					        android:text="End Date and Time:"
-					       android:visibility="invisible"
+					       android:visibility="gone"
 					        android:ems="10" />
 		                <!-- end of end time-->
 						
@@ -200,8 +199,8 @@
 					       android:layout_height="wrap_content"
 					       android:ems="10"
 					       android:editable="false"
-					       android:visibility="invisible"
-					       android:background="@layout/rounded_edittext"/>
+					       android:visibility="gone"
+					       android:background="@layout/templete"/>
 					   	<!-- end of end time edit box -->
            
 		        </LinearLayout>
@@ -237,7 +236,7 @@
 				        android:ems="10"
 				        android:hint="Contact Person Name"
 				        android:inputType="textPersonName"  
-				        android:background="@layout/rounded_edittext"/>	
+				        android:background="@layout/templete"/>	
 				    <!-- end of name field-->
 					<!-- start of phone field-->
 					<EditText android:id="@+id/phone"
@@ -250,7 +249,7 @@
 				        android:ems="10"
 				        android:hint="Contact Number"
 				        android:inputType="phone"  
-				        android:background="@layout/rounded_edittext"/>	
+				        android:background="@layout/templete"/>	
 				    <!-- end of phone field-->
 					<!-- start of email field-->
 					<EditText android:id="@+id/email"
@@ -263,7 +262,7 @@
 				        android:ems="10"
 				        android:hint="Email Address"
 				        android:inputType="textEmailAddress"  
-				        android:background="@layout/rounded_edittext"/>
+				        android:background="@layout/templete"/>
 					<!-- end of email field-->
 					<!-- start of comments field-->
 					<EditText
@@ -276,7 +275,7 @@
 					    android:hint="  Enter your comments here"
 					    android:gravity="top"
 					    android:ems="10"
-					    android:background="@layout/rounded_edittext" >
+					    android:background="@layout/templete" >
 					    <requestFocus />
 					</EditText>
 					<!-- end of comments field-->
@@ -301,4 +300,7 @@
 		      </ScrollView>
 		</FrameLayout>
 	</LinearLayout>
+	
+    
+   
 </TabHost>
