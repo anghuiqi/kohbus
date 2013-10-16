@@ -8,6 +8,12 @@
         <item>Trip-Based Booking</item>
         <item>Time-Based Booking</item>
     </string-array>
-    
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_duplicated_email">The email already exits</string>
+    <string name="error_invalid_r_password">Passwords do not match</string>
+    <string name="error_invalid_contact">This contact no. is invalid</string>
+
 </resources>

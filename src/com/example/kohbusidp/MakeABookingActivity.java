@@ -1,14 +1,20 @@
 package com.example.kohbusidp;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Pattern;
 
 import android.app.*;
 import android.app.ActionBar.LayoutParams;
 import android.app.ActionBar.OnNavigationListener;
 import android.content.*;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Layout;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
+import android.text.format.Time;
 import android.util.*;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -29,8 +35,8 @@ public class MakeABookingActivity extends TabActivity{
 	
 	private Switch switchTimeLocationBased;
 	
-	private LinearLayout moreLocationReturnll;
-	private LinearLayout moreLocationll;
+	private TableLayout tLayout;
+	private TableLayout tLayoutReturn;
 	
 	private TextView startTimeText;
 	private TextView endTimeText;
@@ -48,6 +54,7 @@ public class MakeABookingActivity extends TabActivity{
 	private EditText email;
 	private EditText comment;
 	private Button submitButton;
+	private ProgressDialog pdialog;
 	
 	private String convertedName;
 	private String convertedPhone;
@@ -60,8 +67,16 @@ public class MakeABookingActivity extends TabActivity{
 	private String convertedDestinationLoc;
 	private String convertedDepartureLocReturn;
 	private String convertedDestinationLocReturn;
+
+	private View confirmView;
 	
-	private View dateView;
+	private Calendar c;
+	
+	private ArrayList<String> moreLoc1;
+	private ArrayList<String> moreLoc2;
+	
+	public static final String KEY_NAME = "name";
+	public static final String KEY_EMAIL = "email";
 	
 	//final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 	//final LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -70,9 +85,11 @@ public class MakeABookingActivity extends TabActivity{
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tabhost);
+		setContentView(R.layout.make_booking);
 		
 		tabHost = getTabHost();
+	
+		pdialog = new ProgressDialog(this);
 		
 		passengersTextBox = (EditText) findViewById(R.id.passengersTextBox);
 		departureLoc = (EditText) findViewById(R.id.departureLoc);
@@ -89,10 +106,9 @@ public class MakeABookingActivity extends TabActivity{
 		startTimeText = (TextView) findViewById(R.id.startTimeText);		
 		endTimeText = (TextView) findViewById(R.id.endTimeText);
 		
-		moreLocationll =(LinearLayout) findViewById(R.id.moreLocationll);
-		moreLocationReturnll = (LinearLayout) findViewById(R.id.moreLocationReturnll);
+		tLayout = (TableLayout)findViewById(R.id.tLayout);
+		tLayoutReturn = (TableLayout)findViewById(R.id.tLayoutReturn);
 		
-	
 		addLoc = (Button) findViewById(R.id.addLoc);
 		addLocReturn =(Button) findViewById(R.id.addLocReturn);
 		submitButton =  (Button) findViewById(R.id.submitButton);
@@ -101,11 +117,14 @@ public class MakeABookingActivity extends TabActivity{
 		
 		contactPersonCheck = (CheckBox) findViewById(R.id.contactPersonCheck);
 		
+		moreLoc1 = new ArrayList<String>();
+		moreLoc2 = new ArrayList<String>();
 		
 		String message = getIntent().getStringExtra(HomeActivity.EXTRA_MESSAGE);
 		
 		setupActionBar(message);
 		setupTab();
+		
 		//activate buttons under different tabs
 		chooseAction(tabHost.getCurrentTab());
 		tabHost.setOnTabChangedListener(new OnTabChangeListener(){
@@ -226,25 +245,34 @@ public class MakeABookingActivity extends TabActivity{
 	
 	//actions if click add location button
 	private void addLocation (Button addLoc){
-		final Context myContext =getBaseContext();
+		final Context myContext = getApplicationContext();
 		final int id = addLoc.getId();
 		addLoc.setOnClickListener(new OnClickListener() {
 			@Override
 	    	public void onClick(View view) {
-				TableRow.LayoutParams params = new TableRow.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-				params.setMargins(60, 10, 60, 0);
-				LinearLayout mLinearLayout;
-				if(id == 0x7f09004f){
-					mLinearLayout = moreLocationll; //(LinearLayout)findViewById(R.id.moreLocationll);
-				}else {
-					mLinearLayout = moreLocationReturnll; //(LinearLayout)findViewById(R.id.moreLocationReturnll);
-				}
+				TableRow row = new TableRow(myContext);
+		        row.setLayoutParams(new TableRow.LayoutParams(0,android.widget.TableRow.LayoutParams.WRAP_CONTENT,10f));
+
+		        Button minusButton  = new Button(myContext, null, android.R.attr.buttonStyleSmall);
+
+				EditText oneMoreLoc = new EditText(myContext);
+				oneMoreLoc.setLayoutParams(new TableRow.LayoutParams(0,android.widget.TableRow.LayoutParams.WRAP_CONTENT,8.5f));
+				oneMoreLoc.setHint("Intermediate Location here");
+				oneMoreLoc.setBackgroundResource(R.layout.templete_edittext);
 				
-				EditText moreLoc = new EditText(myContext);
-				moreLoc.setHint("Text here");
-				moreLoc.setBackgroundResource(R.drawable.rounded_edittext);
-				moreLoc.setLayoutParams(params);
-				mLinearLayout.addView(moreLoc);
+				if(id == R.id.addLoc){
+					tLayout.setVisibility(View.VISIBLE);
+					row.addView(minusButton);
+					row.addView(oneMoreLoc);
+					tLayout.addView(row,new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+				}else {
+					tLayoutReturn.setVisibility(View.VISIBLE);
+					row.addView(minusButton);
+					row.addView(oneMoreLoc); 
+					tLayoutReturn.addView(row,new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+				}
+
+				
 			}
 		});
 	}
@@ -261,28 +289,30 @@ public class MakeABookingActivity extends TabActivity{
 			@Override
 	    	public void onClick(View view) {
 		    	
-				final View dateView = layoutInflater.inflate(R.layout.date_time_picker, null);
-		    	final DatePicker dp = (DatePicker) dateView.findViewById(R.id.datePicker1);
-		    	final TimePicker tp = (TimePicker) dateView.findViewById(R.id.timePicker1);
+				final View confirmView = layoutInflater.inflate(R.layout.date_time_picker, null);
+		    	final DatePicker dp = (DatePicker) confirmView.findViewById(R.id.datePicker1);
+		    	final TimePicker tp = (TimePicker) confirmView.findViewById(R.id.timePicker1);
 		    	
-		    	alertDialogBuilder.setView(dateView).setTitle("Date & Time").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-	    			public void onClick(DialogInterface dialog, int id) {
-	    				int year = dp.getYear();
-	    				int month = dp.getMonth();
-	    				int day = dp.getDayOfMonth();
-	    				int hour = tp.getCurrentHour();
-	    				int min = tp.getCurrentMinute();
-	    				//write into the edittext 
-	    				editText.setText(new StringBuilder().append(month + 1)
-    						.append("-").append(day).append("-").append(year).append("  ")
-    						.append(hour).append(":").append(min));		
-	    			}
-	    	    })
+		    	alertDialogBuilder.setView(confirmView)
+		    		.setTitle("Date & Time")
+		    		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		    			public void onClick(DialogInterface dialog, int id) {
+		    				int year = dp.getYear();
+		    				int month = dp.getMonth();
+		    				int day = dp.getDayOfMonth();
+		    				int hour = tp.getCurrentHour();
+		    				int min = tp.getCurrentMinute();
+		    				//write into the edittext 
+		    				editText.setText(new StringBuilder().append(month + 1)
+	    						.append("-").append(day).append("-").append(year).append("  ")
+	    						.append(hour).append(":").append(min));		
+		    			}
+		    		})
 	    	    	.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 	    	    		public void onClick(DialogInterface dialog, int id) {
 	    	    			dialog.cancel();
 	    	    		}
-	    	    });
+	    	    	});
 		    	// create an alert dialog
 		    	AlertDialog alertD = alertDialogBuilder.create();
 		    	alertD.show();
@@ -307,28 +337,25 @@ public class MakeABookingActivity extends TabActivity{
 				if(verifyFields() == true){
 					//Log.v("dalvikvm", "works");
 					
-					dateView = layoutInflater.inflate(R.layout.confirmation,null);
+					confirmView = layoutInflater.inflate(R.layout.confirmation,null);
 					
 					//Log.v("dalvikvm",  passengersTextBox.getText().toString());
 					confirmation();
 										
-					alertDialogBuilder.setView(dateView).setTitle("Confirmation")
+					alertDialogBuilder.setView(confirmView).setTitle("Confirmation")
 						.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			    		
-							
-			    		public void onClick(DialogInterface dialog, int id) {
-			    				//submit!
-			    			
-			    			Context context = getApplicationContext();
-		    				CharSequence text = "You submitted! ";
-		    				int duration = Toast.LENGTH_SHORT;
-		    				Toast toast = Toast.makeText(context, text, duration);
-		    				toast.show();
-		    			}
-	    			}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		    	    		
-			    				public void onClick(DialogInterface dialog, int id) {
-		    	    			dialog.cancel();
+				    		public void onClick(DialogInterface dialog, int id) {
+				    			//submit!
+				    			Context context = getApplicationContext();
+				    			CharSequence text = "wrong! ";
+				    			int duration = Toast.LENGTH_SHORT;
+				    			Toast toast = Toast.makeText(context, text, duration);
+				    			toast.show();
+			    			}
+		    			})
+		    			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		    				public void onClick(DialogInterface dialog, int id) {
+		    					dialog.cancel();
 		    	    		}
 		    	    	});
 			    	// create an alert dialog
@@ -341,7 +368,6 @@ public class MakeABookingActivity extends TabActivity{
 				}
 		});
 	}
-	
 	
 	//activate buttons needed for trip-based booking
 	private void setupTripBasedBooking(){
@@ -364,7 +390,6 @@ public class MakeABookingActivity extends TabActivity{
 		destinationLocReturn.setVisibility(visibility);
 		endTimeText.setVisibility(visibility);
 		endTimeEdit.setVisibility(visibility);
-		moreLocationReturnll.setVisibility(visibility);
 	}
 	
 	
@@ -406,18 +431,43 @@ public class MakeABookingActivity extends TabActivity{
 			validation= false;
 		}
 		
+		
 		if (TextUtils.isEmpty(convertedPhone)) {
 			phone.setError(getString(R.string.error_field_required));
 			focusView = phone;
 			validation = false;
+		} else {
+			//validating that the phone number has a total of 8 numbers and it begins with 6,8 or 9
+			//String firstNumber = convertedPhone.substring(0,1);
+			if(convertedPhone.length() != 8){
+				phone.setError(getString(R.string.error_invalid_contact));
+				focusView = phone;
+				validation = false;
+			}else if(convertedPhone.length() == 8){
+				Pattern p = Pattern.compile("[0-9]*");
+				if(!p.matcher(convertedPhone).matches()){
+					phone.setError(getString(R.string.error_invalid_contact));
+					focusView = phone;
+					validation = false;
+				}				
+			}else{
+				focusView = phone;
+				validation = false;
+			}
 		}
+		
 		
 		if (TextUtils.isEmpty(convertedEmail)) {
 			email.setError(getString(R.string.error_field_required));
 			focusView = email;
 			validation = false;
-		}
-				
+		} else if (!convertedEmail.contains("@")) {
+			email.setError(getString(R.string.error_invalid_email));
+			focusView = email;
+			validation = false;
+		}		
+		
+		
 		if (TextUtils.isEmpty(convertedPassengersNo)) {
 			passengersTextBox.setError(getString(R.string.error_field_required));
 			focusView = passengersTextBox;
@@ -436,13 +486,33 @@ public class MakeABookingActivity extends TabActivity{
 			focusView = destinationLoc;
 			validation = false;
 		}
-		
-		
+				
 		
 		if (TextUtils.isEmpty(convertedStartTime)) {
 			startTimeEdit.setError(getString(R.string.error_field_required));
 			focusView = startTimeEdit;
 			validation = false;
+		} else {
+			/*
+			if(verifyTime(convertedStartTime) != true){
+				startTimeEdit.setError("invalid startTime");
+				focusView = startTimeEdit;
+				validation = false;
+			}
+			*/
+//			String[] parts = convertedStartTime.split("[ -:]");
+//			String sMonth = parts[0];
+//			String sDay = parts[1];
+//			String sYear = parts[2];
+//			String sHour = parts[3];
+//			String sMin = parts[4];
+			
+			Calendar c = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm ");
+//			c.setTime(sdf.parse(convertedStartTime));
+			
+			
+			
 		}
 		
 		//only implement this if round trip is select
@@ -472,16 +542,15 @@ public class MakeABookingActivity extends TabActivity{
 	
 	
 	public void confirmation(){
-		
-		//dateView = layoutInflater.inflate(R.layout.confirmation,null);		
-		TextView confirmedPassenger = (TextView) dateView.findViewById(R.id.noPassengerValue);
-		TextView confirmedDepartLoc = (TextView) dateView.findViewById(R.id.departLocValue);
-		TextView confirmedDestLoc = (TextView) dateView.findViewById(R.id.destLocValue);
-		TextView confirmedStartDT = (TextView) dateView.findViewById(R.id.confirmedStartDT);
-		TextView confirmedName = (TextView) dateView.findViewById(R.id.confirmedName);
-		TextView confirmedNumber = (TextView) dateView.findViewById(R.id.confirmedNumber);
-		TextView confirmedEmail = (TextView) dateView.findViewById(R.id.confirmedEmail);
-		TextView confirmedComments = (TextView) dateView.findViewById(R.id.confirmedComments);
+		//confirmView = layoutInflater.inflate(R.layout.confirmation,null);		
+		TextView confirmedPassenger = (TextView) confirmView.findViewById(R.id.noPassengerValue);
+		TextView confirmedDepartLoc = (TextView) confirmView.findViewById(R.id.departLocValue);
+		TextView confirmedDestLoc = (TextView) confirmView.findViewById(R.id.destLocValue);
+		TextView confirmedStartDT = (TextView) confirmView.findViewById(R.id.confirmedStartDT);
+		TextView confirmedName = (TextView) confirmView.findViewById(R.id.confirmedName);
+		TextView confirmedNumber = (TextView) confirmView.findViewById(R.id.confirmedNumber);
+		TextView confirmedEmail = (TextView) confirmView.findViewById(R.id.confirmedEmail);
+		TextView confirmedComments = (TextView) confirmView.findViewById(R.id.confirmedComments);
 			
 		confirmedPassenger.setText(passengersTextBox.getText());
 		confirmedDepartLoc.setText(departureLoc.getText());
@@ -493,6 +562,12 @@ public class MakeABookingActivity extends TabActivity{
 		confirmedComments.setText(comment.getText());
 		
 	}
+	
+	//method for comparing time
+	public boolean verifyTime(String startTime){
+		return true;
+	}
+		
 }
 
 
