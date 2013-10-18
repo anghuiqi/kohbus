@@ -1,121 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/confirmation"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center"
-    android:orientation="vertical" >
-	<!-- start of step 1 -->
-    <TextView
-        android:id="@+id/step1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:text=" Step 1: "/>
-    <TextView
-        android:id="@+id/noPassenger"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" No. of passengers: " />
-    <TextView
-        android:id="@+id/noPassengerValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/departLoc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Departure Location: " />
-    <TextView
-        android:id="@+id/departLocValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/destLoc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Destination Location: " />
-    <TextView
-        android:id="@+id/destLocValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <!-- end of step 1 -->
-    <!-- start of step 2 -->
-    <TextView
-        android:id="@+id/step2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text=" Step 2: " />
-    <TextView
-        android:id="@+id/startDT"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Start Date and Time: " />
-    <TextView
-        android:id="@+id/confirmedStartDT"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <!-- end of step 2 -->
-    <!-- start of step 3 -->
-    <TextView
-        android:id="@+id/step3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text=" Step 3: " />
-     <TextView
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Name:" />
-     <TextView
-        android:id="@+id/confirmedName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-     <TextView
-        android:id="@+id/number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Contact Number: " />
-      <TextView
-        android:id="@+id/confirmedNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-     <TextView
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Email Address:" />
-     <TextView
-        android:id="@+id/confirmedEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-     <TextView
-        android:id="@+id/confirmedComments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Comments: " />
-    <!-- end of step 3 -->
-    <!-- start of calculation price --> 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-         android:paddingBottom="10dp"
-        android:text=" Estimated Quotation: " />
-    <!-- end of calculation price -->
-    
- 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    </LinearLayout>
-
-
-
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+ 	android:fillViewport="true">
+	<TableLayout 
+	    android:id="@+id/confirmation"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:orientation="vertical" >
+		<!-- start of step 1 -->
+	    <TableRow >
+		    <TextView  android:id="@+id/step1"
+		        android:layout_span="2"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/step1"/>
+		</TableRow>
+	    
+	    <View android:layout_width="fill_parent"
+		    android:layout_height="1dp"
+		    android:background="@android:color/darker_gray"/>
+	    
+	    <TableRow >
+		    <TextView android:id="@+id/noPassenger"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/no_of_passengers_confirm" />
+		    <TextView android:id="@+id/noPassengerValue"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"/>
+	    </TableRow>
+	    
+	    <TableRow >
+		    <TextView android:id="@+id/departLoc"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/departure_location_confirm" />
+		    <TextView android:id="@+id/departLocValue"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"/>
+	    </TableRow>
+	    
+	    <TableRow >
+		    <TextView android:id="@+id/stopoverList"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/stopover_confirm" 
+		        android:visibility="gone"/>
+		    <TextView android:id="@+id/confirmedStopoverList"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:visibility="gone"/>
+	    </TableRow>
+	    
+	    <TableRow >
+		    <TextView android:id="@+id/destLoc"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/destination_location_confirm" />
+		    <TextView android:id="@+id/destLocValue"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"/>
+	    </TableRow>
+	    
+	    <!-- below is for return trip -->
+	   	<TableRow >
+		    <TextView android:id="@+id/departLocReturn"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop ="10dp"
+		        android:text="@string/departure_location_return_confirm"	        
+		        android:visibility="gone" />
+		    <TextView android:id="@+id/departLocValueReturn"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop ="10dp"
+		        android:visibility="gone"/>
+	    </TableRow>
+	   	
+	   	<TableRow>
+			<TextView android:id="@+id/stopoverListReturn"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/stopover_return_confirm" 
+		        android:visibility="gone"/>
+		    <TextView android:id="@+id/confirmedStopoverListReturn"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:visibility="gone"/>
+	    </TableRow>
+	    
+	   	<TableRow >
+		    <TextView android:id="@+id/destLocReturn"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/destination_location_return_confirm"
+				android:visibility="gone"/>
+		    <TextView android:id="@+id/destLocValueReturn"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:visibility="gone"/>
+	    </TableRow>
+	    
+	   	
+	    <!-- start of step 2 -->
+	    <TableRow >
+		    <TextView android:id="@+id/step2"
+		        android:layout_span="2"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+			    android:layout_marginTop ="10dp"
+	       		android:text="@string/step2" />
+	    </TableRow>
+	     	    
+	    <View android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="@android:color/darker_gray"/>
+	    
+	    <TableRow >
+		    <TextView android:id="@+id/startDT"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/start_date_time_confirm" />
+		    <TextView android:id="@+id/confirmedStartDT"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"/>
+		</TableRow>
+		
+	    <TableRow >
+		    <TextView android:id="@+id/startDTReturn"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/start_date_time_return_confirm" 
+		        android:visibility="gone"/>
+		    <TextView android:id="@+id/confirmedStartDTReturn"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:visibility="gone"/>
+		</TableRow>
+		
+	    <!-- start of step 3 -->
+	    <TableRow >
+		    <TextView android:id="@+id/step3"
+		        android:layout_span="2"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop ="10dp"
+		        android:text="@string/step3" />
+	    </TableRow>
+	    	    
+	    <View android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="@android:color/darker_gray"/>
+	    
+	    <TableRow >
+		     <TextView android:id="@+id/name"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/contact_name_confirm" />
+		     <TextView android:id="@+id/confirmedName"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"/>
+	     </TableRow>
+	     
+	     <TableRow >
+		     <TextView android:id="@+id/number"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/contact_number_confirm" />
+		      <TextView android:id="@+id/confirmedNumber"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"/>
+	     </TableRow>
+	      
+	     <TableRow >
+		     <TextView android:id="@+id/email"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/contact_email_confirm" />
+		     <TextView android:id="@+id/confirmedEmail"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"/>
+	     </TableRow>
+	     
+	     <TableRow >
+			 <TextView
+		        android:id="@+id/comments"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/comment_confirm"
+		        android:visibility="gone" />
+		     <TextView
+		        android:id="@+id/confirmedComments"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:visibility="gone"/>
+	     </TableRow>
+	     
+	    <!-- start of calculation price --> 
+	     <TableRow >
+		    <TextView
+		        android:id="@+id/step4"
+		        android:layout_span="2"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop ="10dp"
+		        android:text="@string/step4" />
+	    </TableRow>
+	    	    
+	    <View   android:layout_width="fill_parent"
+			    android:layout_height="1dp"
+			    android:background="@android:color/darker_gray"/>
+	    
+	    <TableRow >
+		    <TextView
+		        android:id="@+id/quotation"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/quotation_confirm" />
+			<TextView
+		        android:id="@+id/confirmedQuotation"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content" />
+		</TableRow>		
+	</TableLayout>
+</ScrollView>

@@ -16,6 +16,9 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionDropDownStyle">@style/MyDropDownNav</item>
+        
     </style>
 
     <style name="LoginFormContainer">
@@ -42,5 +45,20 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ems">10</item>
     </style>
+    
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#84B6B8</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
 
+
+    
+    <!-- ActionBar dropdown styles -->
+     	<style name="MyDropDownNav" parent="android:style/Widget.Holo.Spinner">
+       	<!-- item name="android:background">#84B6B8</item> -->
+    	<item name="android:popupBackground">#BBE3E0</item>
+    	<item name="android:dropDownSelector">#84B6B8</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
 </resources>

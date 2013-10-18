@@ -1,127 +1,119 @@
 package com.example.kohbusidp;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
 import android.app.*;
 import android.app.ActionBar.LayoutParams;
-import android.app.ActionBar.OnNavigationListener;
 import android.content.*;
-import android.os.AsyncTask;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Layout;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
-import android.text.format.Time;
-import android.util.*;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.util.DateTime;
+
 
 @SuppressWarnings("deprecation")
 public class MakeABookingActivity extends TabActivity{
 /*	private SessionManagement session;*/
-	
 	private TabHost tabHost;
 	private ActionBar actionBar;
 		
 	private Button addLoc;
 	private Button addLocReturn;
-	
-	private Switch switchTimeLocationBased;
-	
+	private Button submitButton;
 	private TableLayout tLayout;
 	private TableLayout tLayoutReturn;
-	
-	private TextView startTimeText;
-	private TextView endTimeText;
-	private EditText startTimeEdit;	
-	private EditText endTimeEdit;
-	private EditText passengersTextBox;
-	private EditText departureLoc;
-	private EditText destinationLoc;
-	private EditText departureLocReturn;
-	private EditText destinationLocReturn;
-	
+	private Switch switchTimeLocationBased;
 	private CheckBox contactPersonCheck;
+	private ProgressDialog pdialog;
+	
+	//below is to get value from the make_booking.xml
+	private EditText startTimeEdit;	
+	private TextView startTimeReturnText;//optional
+	private EditText startTimeReturnEdit;//optional
+	private EditText passengersTextBox;
+	private AutoCompleteTextView departureLoc;
+	private AutoCompleteTextView destinationLoc;
+	private AutoCompleteTextView departureLocReturn;//optional
+	private AutoCompleteTextView destinationLocReturn;//optional
 	private EditText name;
 	private EditText phone;
 	private EditText email;
-	private EditText comment;
-	private Button submitButton;
-	private ProgressDialog pdialog;
+	private EditText comment;//optional
 	
+	//below is to convert values from EditText to String
 	private String convertedName;
 	private String convertedPhone;
 	private String convertedEmail;
-	private String convertedComment;
+	private String convertedComment;//optional
 	private String convertedPassengersNo;
-	private String convertedStartTime;
-	private String convertedEndTime;
 	private String convertedDepartureLoc;
 	private String convertedDestinationLoc;
-	private String convertedDepartureLocReturn;
-	private String convertedDestinationLocReturn;
-
+	private String convertedDepartureLocReturn;//optional
+	private String convertedDestinationLocReturn;//optional
+	private String convertedStartTime;
+	private String convertedStartTimeReturn;//optional
+	private String convertedStopovers;//optional
+	private String convertedStopoversReturn;//optional
+	
 	private View confirmView;
 	
 	private Calendar c;
 	
-	private ArrayList<String> moreLoc1;
-	private ArrayList<String> moreLoc2;
-	
-	public static final String KEY_NAME = "name";
-	public static final String KEY_EMAIL = "email";
-	
 	//final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 	//final LayoutInflater layoutInflater = LayoutInflater.from(this);
 	
-		
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.make_booking);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		tabHost = getTabHost();
-	
-		pdialog = new ProgressDialog(this);
+			
+		pdialog = new ProgressDialog(this);	
+		
+		//This is an example of how to use auto-complete place
+		departureLoc = (AutoCompleteTextView) findViewById(R.id.departureLoc);
+		destinationLoc =(AutoCompleteTextView) findViewById(R.id.destinationLoc);
+		departureLocReturn = (AutoCompleteTextView) findViewById(R.id.departureLocReturn);//optional
+		destinationLocReturn = (AutoCompleteTextView) findViewById(R.id.destinationLocReturn);//optional
+		
+		departureLoc.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.item_list));
+		destinationLoc.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.item_list));
+		departureLocReturn.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.item_list));//optional
+		destinationLocReturn.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.item_list));//optional
 		
 		passengersTextBox = (EditText) findViewById(R.id.passengersTextBox);
-		departureLoc = (EditText) findViewById(R.id.departureLoc);
-		destinationLoc =(EditText) findViewById(R.id.destinationLoc);
-		departureLocReturn = (EditText) findViewById(R.id.departureLocReturn); 
-		destinationLocReturn = (EditText) findViewById(R.id.destinationLocReturn); 
 		startTimeEdit = (EditText) findViewById(R.id.startTimeEdit);
-		endTimeEdit = (EditText) findViewById(R.id.endTimeEdit); 
+		startTimeReturnEdit = (EditText) findViewById(R.id.startTimeReturnEdit); //optional
 		name = (EditText) findViewById(R.id.name);
 		phone =  (EditText) findViewById(R.id.phone);
 		email =  (EditText) findViewById(R.id.email);
-		comment =  (EditText) findViewById(R.id.comment);
+		comment =  (EditText) findViewById(R.id.comment);//optionals
 		
-		startTimeText = (TextView) findViewById(R.id.startTimeText);		
-		endTimeText = (TextView) findViewById(R.id.endTimeText);
+		startTimeReturnText = (TextView) findViewById(R.id.startTimeReturnText);//optional
 		
-		tLayout = (TableLayout)findViewById(R.id.tLayout);
-		tLayoutReturn = (TableLayout)findViewById(R.id.tLayoutReturn);
+		tLayout = (TableLayout) findViewById(R.id.tLayout);
+		tLayoutReturn = (TableLayout) findViewById(R.id.tLayoutReturn);
+
 		
 		addLoc = (Button) findViewById(R.id.addLoc);
-		addLocReturn =(Button) findViewById(R.id.addLocReturn);
+		addLocReturn =(Button) findViewById(R.id.addLocReturn);//optional
 		submitButton =  (Button) findViewById(R.id.submitButton);
-		
 		switchTimeLocationBased= (Switch) findViewById(R.id.switchTimeLocationBased);
-		
 		contactPersonCheck = (CheckBox) findViewById(R.id.contactPersonCheck);
 		
-		moreLoc1 = new ArrayList<String>();
-		moreLoc2 = new ArrayList<String>();
-		
 		String message = getIntent().getStringExtra(HomeActivity.EXTRA_MESSAGE);
-		
 		setupActionBar(message);
 		setupTab();
 		
@@ -186,19 +178,19 @@ public class MakeABookingActivity extends TabActivity{
 	private void setupTab(){
 	    
 		TabSpec ts1 = tabHost.newTabSpec("locationTab");
-	    ts1.setIndicator("Step 1: Location");
+	    ts1.setIndicator(getResources().getString(R.string.step1));
 	    ts1.setContent(R.id.tab1);
 	    tabHost.addTab(ts1);
 	    tabHost.setId(0);
 
 	    TabSpec ts2 = tabHost.newTabSpec("timeTab");
-	    ts2.setIndicator("Step 2: Date & Time");
+	    ts2.setIndicator(getResources().getString(R.string.step2));
 	    ts2.setContent(R.id.tab2);
 	    tabHost.addTab(ts2);
 	    tabHost.setId(1);
 
 	    TabSpec ts3 = tabHost.newTabSpec("Tab3");
-	    ts3.setIndicator("Step 3: Contact Info");
+	    ts3.setIndicator(getResources().getString(R.string.step3));
 	    ts3.setContent(R.id.tab3);
 	    tabHost.addTab(ts3);
 	    tabHost.setId(2);
@@ -209,20 +201,15 @@ public class MakeABookingActivity extends TabActivity{
 	private void chooseAction(int tabId){
 		switch(tabId){
 		    case 0:
-				//if click switch button
 				switchAction(switchTimeLocationBased);	  
-				//if click add location button
 				addLocation(addLoc);
-				//if click add location button for return trip
 				addLocation(addLocReturn);
 				break;
 		    case 1:
-		    	//if click testing button
 		    	showTimePickerDialog(startTimeEdit);	
-		    	showTimePickerDialog (endTimeEdit);  	    		    	
+		    	showTimePickerDialog (startTimeReturnEdit);  	    		    	
 		    	break;
 		    case 2:
-				//if click submit button
 				submitAction(submitButton);
 				break;
 		}
@@ -244,40 +231,55 @@ public class MakeABookingActivity extends TabActivity{
 	
 	
 	//actions if click add location button
-	private void addLocation (Button addLoc){
-		final Context myContext = getApplicationContext();
-		final int id = addLoc.getId();
-		addLoc.setOnClickListener(new OnClickListener() {
+	private void addLocation (Button stopover){
+		final int id = stopover.getId();
+		
+		stopover.setOnClickListener(new OnClickListener() {
 			@Override
 	    	public void onClick(View view) {
-				TableRow row = new TableRow(myContext);
-		        row.setLayoutParams(new TableRow.LayoutParams(0,android.widget.TableRow.LayoutParams.WRAP_CONTENT,10f));
-
-		        Button minusButton  = new Button(myContext, null, android.R.attr.buttonStyleSmall);
-
-				EditText oneMoreLoc = new EditText(myContext);
-				oneMoreLoc.setLayoutParams(new TableRow.LayoutParams(0,android.widget.TableRow.LayoutParams.WRAP_CONTENT,8.5f));
-				oneMoreLoc.setHint("Intermediate Location here");
-				oneMoreLoc.setBackgroundResource(R.layout.templete_edittext);
+				final TableRow row = new TableRow(getApplicationContext());
+				row.setLayoutParams(new TableRow.LayoutParams(0,android.widget.TableRow.LayoutParams.WRAP_CONTENT,10f));
+		        
+				Drawable remove = getResources().getDrawable(R.drawable.ic_action_remove);
 				
+		        Button deleteButton  = new Button(getApplicationContext(), null, android.R.attr.buttonStyleSmall);
+		        deleteButton.setBackgroundDrawable(remove);
+				
+		        AutoCompleteTextView oneMoreLoc = new AutoCompleteTextView(getApplicationContext());
+				oneMoreLoc.setLayoutParams(new TableRow.LayoutParams(0,android.widget.TableRow.LayoutParams.WRAP_CONTENT,8.5f));
+				oneMoreLoc.setHint(R.string.stopovers);
+				oneMoreLoc.setBackgroundResource(R.layout.templete_edittext);
+				oneMoreLoc.setTextColor(Color.BLACK);
+				oneMoreLoc.setAdapter(new PlacesAutoCompleteAdapter(MakeABookingActivity.this, R.layout.item_list));
+								
+				//set the specific place for stop-over
 				if(id == R.id.addLoc){
-					tLayout.setVisibility(View.VISIBLE);
-					row.addView(minusButton);
+					row.addView(deleteButton);
 					row.addView(oneMoreLoc);
 					tLayout.addView(row,new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 				}else {
-					tLayoutReturn.setVisibility(View.VISIBLE);
-					row.addView(minusButton);
+					row.addView(deleteButton);
 					row.addView(oneMoreLoc); 
 					tLayoutReturn.addView(row,new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 				}
-
+				
+				
+				//if click delete button
+				deleteButton.setOnClickListener(new OnClickListener() {
+					@Override
+			    	public void onClick(View view) {
+						if(id == R.id.addLoc){
+							tLayout.removeView(row);
+						}else {
+							tLayoutReturn.removeView(row);
+						}
+					}
+				});			
 				
 			}
 		});
 	}
 	
-
 	//actions if click DateTime button
 	private void showTimePickerDialog (EditText editBox){
 		
@@ -288,12 +290,11 @@ public class MakeABookingActivity extends TabActivity{
 		editBox.setOnClickListener(new OnClickListener() {
 			@Override
 	    	public void onClick(View view) {
+				final View dateView = layoutInflater.inflate(R.layout.date_time_picker, null);
+		    	final DatePicker dp = (DatePicker) dateView.findViewById(R.id.datePicker1);
+		    	final TimePicker tp = (TimePicker) dateView.findViewById(R.id.timePicker1);
 		    	
-				final View confirmView = layoutInflater.inflate(R.layout.date_time_picker, null);
-		    	final DatePicker dp = (DatePicker) confirmView.findViewById(R.id.datePicker1);
-		    	final TimePicker tp = (TimePicker) confirmView.findViewById(R.id.timePicker1);
-		    	
-		    	alertDialogBuilder.setView(confirmView)
+		    	alertDialogBuilder.setView(dateView)
 		    		.setTitle("Date & Time")
 		    		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 		    			public void onClick(DialogInterface dialog, int id) {
@@ -308,6 +309,7 @@ public class MakeABookingActivity extends TabActivity{
 	    						.append(hour).append(":").append(min));		
 		    			}
 		    		})
+		    		
 	    	    	.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 	    	    		public void onClick(DialogInterface dialog, int id) {
 	    	    			dialog.cancel();
@@ -326,48 +328,48 @@ public class MakeABookingActivity extends TabActivity{
 		
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		final LayoutInflater layoutInflater = LayoutInflater.from(this);
-		
-		
+				
 		submitButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 	    	public void onClick(View view) {
-							
-				
+									
 				if(verifyFields() == true){
-					//Log.v("dalvikvm", "works");
-					
 					confirmView = layoutInflater.inflate(R.layout.confirmation,null);
 					
-					//Log.v("dalvikvm",  passengersTextBox.getText().toString());
-					confirmation();
+					showConfirmation();
 										
 					alertDialogBuilder.setView(confirmView).setTitle("Confirmation")
 						.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 				    		public void onClick(DialogInterface dialog, int id) {
 				    			//submit!
 				    			Context context = getApplicationContext();
-				    			CharSequence text = "wrong! ";
-				    			int duration = Toast.LENGTH_SHORT;
-				    			Toast toast = Toast.makeText(context, text, duration);
-				    			toast.show();
+								CharSequence text = "You submit successfully!" ;
+								int duration = Toast.LENGTH_SHORT;
+								Toast toast = Toast.makeText(context, text, duration);
+								toast.show();	    			
 			    			}
 		    			})
-		    			.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		    				public void onClick(DialogInterface dialog, int id) {
-		    					dialog.cancel();
+		    			
+	    				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			    			public void onClick(DialogInterface dialog, int id) {
+		    	    			dialog.cancel();
 		    	    		}
-		    	    	});
+			    	    });
 			    	// create an alert dialog
 			    	AlertDialog alertD = alertDialogBuilder.create();
 			    	alertD.show();
-					}/*else{
-						Log.v("dalvikvm", "not works");
-					}
-					*/
+				
+				}else{
+					Context context = getApplicationContext();
+					CharSequence text = getResources().getString(R.string.failSubmit);
+					int duration = Toast.LENGTH_SHORT;
+					Toast toast = Toast.makeText(context, text, duration);
+					toast.show();
 				}
+			}
 		});
 	}
+
 	
 	//activate buttons needed for trip-based booking
 	private void setupTripBasedBooking(){
@@ -382,26 +384,28 @@ public class MakeABookingActivity extends TabActivity{
 	private void setupTimeBasedBooking(){
 		switchTimeLocationBased.setVisibility(View.GONE);
 		setStatus(View.GONE);
+		startTimeReturnText.setVisibility(View.VISIBLE);
+		startTimeReturnEdit.setVisibility(View.VISIBLE);
 	}
 	
 	private void setStatus(int visibility){
 		departureLocReturn.setVisibility(visibility);
 		addLocReturn.setVisibility(visibility);
 		destinationLocReturn.setVisibility(visibility);
-		endTimeText.setVisibility(visibility);
-		endTimeEdit.setVisibility(visibility);
+		tLayoutReturn.setVisibility(visibility);
+		startTimeReturnText.setVisibility(visibility);
+		startTimeReturnEdit.setVisibility(visibility);
 	}
 	
 	
 	private boolean verifyFields(){
-		
 		boolean validation = true;
 		
 		passengersTextBox.setError(null);
 		departureLoc.setError(null);
 		destinationLoc.setError(null);
 		startTimeEdit.setError(null);
-		endTimeEdit.setError(null);
+		startTimeReturnEdit.setError(null);
 		name.setError(null);
 		phone.setError(null);
 		email.setError(null);
@@ -409,28 +413,30 @@ public class MakeABookingActivity extends TabActivity{
 		destinationLocReturn.setError(null);
 		
 		View focusView = null;
-				
 		//need to add one more validation: if checkbox is ticked, convertedName = sessionUser
+		convertedPassengersNo = passengersTextBox.getText().toString(); 
+
+		convertedDepartureLoc = departureLoc.getText().toString();
+		convertedDestinationLoc = destinationLoc.getText().toString();
+		convertedStopovers = "";//optional
+		
+		convertedDepartureLocReturn = departureLocReturn.getText().toString();//optional
+		convertedDestinationLocReturn = destinationLocReturn.getText().toString();//optional
+		convertedStopoversReturn = "";//optional
+		
+		convertedStartTime = startTimeEdit.getText().toString();
+		convertedStartTimeReturn = startTimeReturnEdit.getText().toString();//optional
+
 		convertedName = name.getText().toString();
 		convertedPhone = phone.getText().toString();
 		convertedEmail = email.getText().toString();
-		
-		convertedPassengersNo = passengersTextBox.getText().toString(); 
-		convertedStartTime = startTimeEdit.getText().toString();
-		convertedEndTime = endTimeEdit.getText().toString();
-		
-		convertedDepartureLoc = departureLoc.getText().toString();;
-		convertedDestinationLoc = destinationLoc.getText().toString();;
-		
-		convertedDepartureLocReturn = departureLocReturn.getText().toString();
-		convertedDestinationLocReturn = destinationLocReturn.getText().toString();
+		convertedComment = comment.getText().toString();
 		
 		if (TextUtils.isEmpty(convertedName)) {
 			name.setError(getString(R.string.error_field_required));
 			focusView = name;
 			validation= false;
 		}
-		
 		
 		if (TextUtils.isEmpty(convertedPhone)) {
 			phone.setError(getString(R.string.error_field_required));
@@ -456,7 +462,6 @@ public class MakeABookingActivity extends TabActivity{
 			}
 		}
 		
-		
 		if (TextUtils.isEmpty(convertedEmail)) {
 			email.setError(getString(R.string.error_field_required));
 			focusView = email;
@@ -467,13 +472,11 @@ public class MakeABookingActivity extends TabActivity{
 			validation = false;
 		}		
 		
-		
 		if (TextUtils.isEmpty(convertedPassengersNo)) {
 			passengersTextBox.setError(getString(R.string.error_field_required));
 			focusView = passengersTextBox;
 			validation = false;
 		}
-		
 		
 		if (TextUtils.isEmpty(convertedDepartureLoc)) {
 			departureLoc.setError(getString(R.string.error_field_required));
@@ -486,45 +489,52 @@ public class MakeABookingActivity extends TabActivity{
 			focusView = destinationLoc;
 			validation = false;
 		}
-				
 		
 		if (TextUtils.isEmpty(convertedStartTime)) {
 			startTimeEdit.setError(getString(R.string.error_field_required));
 			focusView = startTimeEdit;
 			validation = false;
-		} else {
-			/*
-			if(verifyTime(convertedStartTime) != true){
-				startTimeEdit.setError("invalid startTime");
-				focusView = startTimeEdit;
-				validation = false;
-			}
-			*/
-//			String[] parts = convertedStartTime.split("[ -:]");
-//			String sMonth = parts[0];
-//			String sDay = parts[1];
-//			String sYear = parts[2];
-//			String sHour = parts[3];
-//			String sMin = parts[4];
-			
-			Calendar c = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm ");
-//			c.setTime(sdf.parse(convertedStartTime));
-			
-			
-			
 		}
 		
-		//only implement this if round trip is select
+		//check & add the ArrayList
+		int noOfTableRow;
+		int noOfTableRowReturn;
+		try{
+			noOfTableRow = tLayout.getChildCount();
+			noOfTableRowReturn = tLayoutReturn.getChildCount();
+		}catch (Exception e){
+			noOfTableRow = 0;
+			noOfTableRowReturn = 0;
+		}
 		
+		if(noOfTableRow != 0){
+			loop:
+			for(int i = 0; i < noOfTableRow; i++){
+				TableRow row = (TableRow) tLayout.getChildAt(i);
+				AutoCompleteTextView tv = (AutoCompleteTextView) row.getChildAt(1);
+				String location =tv.getText().toString();
+				if(location.equals("")){
+					validation = false;
+					break loop;
+				}
+			}
+			//add to ArrayList
+			for(int i =0; i < noOfTableRow; i++){
+				TableRow row = (TableRow) tLayout.getChildAt(i);
+				AutoCompleteTextView tv = (AutoCompleteTextView) row.getChildAt(1);
+				convertedStopovers = convertedStopovers + tv.getText().toString() + "; ";
+			}
+		}
+
+
 		if(switchTimeLocationBased.isChecked()== true){
-			if (TextUtils.isEmpty(convertedEndTime)) {
-				endTimeEdit.setError(getString(R.string.error_field_required));
-				focusView = endTimeEdit;
+			if (TextUtils.isEmpty(convertedStartTimeReturn)) {
+				startTimeReturnEdit.setError(getString(R.string.error_field_required));
+				focusView = startTimeReturnEdit;
 				validation = false;
 			}
 			
-			if (TextUtils.isEmpty(convertedDestinationLocReturn)) {
+			if (TextUtils.isEmpty(convertedDepartureLocReturn)) {
 				destinationLocReturn.setError(getString(R.string.error_field_required));
 				focusView = destinationLocReturn;
 				validation = false;
@@ -534,6 +544,27 @@ public class MakeABookingActivity extends TabActivity{
 				destinationLocReturn.setError(getString(R.string.error_field_required));
 				focusView = destinationLocReturn;
 				validation = false;
+			}
+			
+			//add and check the arraylist
+			//only implement this if round trip is select
+			if(noOfTableRowReturn != 0){
+				loop:
+				for(int i = 0; i < noOfTableRowReturn; i++){
+					TableRow row = (TableRow) tLayoutReturn.getChildAt(i);
+					AutoCompleteTextView tv = (AutoCompleteTextView) row.getChildAt(1);
+					String location =tv.getText().toString();
+					if(location.equals("")){
+						validation = false;
+						break loop;
+					}
+				}
+				//add to ArrayList
+				for(int i =0; i < noOfTableRowReturn; i++){
+					TableRow row = (TableRow) tLayoutReturn.getChildAt(i);
+					AutoCompleteTextView tv = (AutoCompleteTextView) row.getChildAt(1);
+					convertedStopoversReturn = convertedStopoversReturn + tv.getText().toString() + "; ";
+				}
 			}
 		}
 				
@@ -541,17 +572,29 @@ public class MakeABookingActivity extends TabActivity{
 	}
 	
 	
-	public void confirmation(){
-		//confirmView = layoutInflater.inflate(R.layout.confirmation,null);		
+	public void showConfirmation(){
+		
 		TextView confirmedPassenger = (TextView) confirmView.findViewById(R.id.noPassengerValue);
 		TextView confirmedDepartLoc = (TextView) confirmView.findViewById(R.id.departLocValue);
+		TextView confirmedStopoverList = (TextView) confirmView.findViewById(R.id.confirmedStopoverList);//optional
 		TextView confirmedDestLoc = (TextView) confirmView.findViewById(R.id.destLocValue);
+		TextView confirmDepartLocReturn = (TextView) confirmView.findViewById(R.id.departLocValueReturn);//optional
+		TextView confirmedStopoverListReturn = (TextView) confirmView.findViewById(R.id.confirmedStopoverListReturn);//optional
+		TextView confirmDestLocReturn = (TextView) confirmView.findViewById(R.id.destLocValueReturn);//optional
 		TextView confirmedStartDT = (TextView) confirmView.findViewById(R.id.confirmedStartDT);
+		TextView confirmedStartDTReturn = (TextView) confirmView.findViewById(R.id.confirmedStartDTReturn);//optional
 		TextView confirmedName = (TextView) confirmView.findViewById(R.id.confirmedName);
 		TextView confirmedNumber = (TextView) confirmView.findViewById(R.id.confirmedNumber);
 		TextView confirmedEmail = (TextView) confirmView.findViewById(R.id.confirmedEmail);
-		TextView confirmedComments = (TextView) confirmView.findViewById(R.id.confirmedComments);
-			
+		TextView confirmedComments = (TextView) confirmView.findViewById(R.id.confirmedComments);//optional
+		
+		TextView confirmedCommentText = (TextView) confirmView.findViewById(R.id.comments);//optional
+		TextView textStopoverList = (TextView) confirmView.findViewById(R.id.stopoverList);//optional text
+		TextView textdepartLocReturn = (TextView) confirmView.findViewById(R.id.departLocReturn);//optional text
+		TextView textStopoverListReturn = (TextView) confirmView.findViewById(R.id.stopoverListReturn);//optional text
+		TextView textDestLocReturn = (TextView) confirmView.findViewById(R.id.destLocReturn);//optional text
+		TextView textStartDTReturn = (TextView) confirmView.findViewById(R.id.startDTReturn);//optional text
+		
 		confirmedPassenger.setText(passengersTextBox.getText());
 		confirmedDepartLoc.setText(departureLoc.getText());
 		confirmedDestLoc.setText(destinationLoc.getText());
@@ -559,16 +602,47 @@ public class MakeABookingActivity extends TabActivity{
 		confirmedName.setText(name.getText());
 		confirmedNumber.setText(phone.getText());
 		confirmedEmail.setText(email.getText());
-		confirmedComments.setText(comment.getText());
 		
+		if(!convertedComment.equals("")){
+			confirmedCommentText.setVisibility(View.VISIBLE);
+			confirmedComments.setVisibility(View.VISIBLE);
+			confirmedComments.setText(comment.getText());
+		}
+		
+		if(!convertedStopovers.equals("")){
+			textStopoverList.setVisibility(View.VISIBLE);
+			confirmedStopoverList.setVisibility(View.VISIBLE);
+			confirmedStopoverList.setText(convertedStopovers);
+		}
+		
+		if(switchTimeLocationBased.isChecked() == true){
+			textdepartLocReturn.setVisibility(View.VISIBLE);
+			textDestLocReturn.setVisibility(View.VISIBLE);
+			textStartDTReturn.setVisibility(View.VISIBLE);
+			
+			confirmDepartLocReturn.setVisibility(View.VISIBLE);
+			confirmDestLocReturn.setVisibility(View.VISIBLE);
+			confirmedStartDTReturn.setVisibility(View.VISIBLE);
+			
+			confirmDepartLocReturn.setText(departureLocReturn.getText());
+			confirmDestLocReturn.setText(destinationLocReturn.getText());
+			confirmedStartDTReturn.setText(startTimeReturnEdit.getText());
+			
+			if(!convertedStopoversReturn.equals("")){
+				textStopoverListReturn.setVisibility(View.VISIBLE);
+				confirmedStopoverListReturn.setVisibility(View.VISIBLE);
+				confirmedStopoverListReturn.setText(convertedStopoversReturn);
+			}
+		}
 	}
 	
 	//method for comparing time
 	public boolean verifyTime(String startTime){
 		return true;
 	}
-		
+	
 }
+
 
 
 
