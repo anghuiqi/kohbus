@@ -15,18 +15,34 @@ public class HomeActivity extends Activity implements OnClickListener{
 
 	private Button timeBookingButton;
 	private Button tripBookingButton;
+	private Button makeBookingButton;
 	public final static String EXTRA_MESSAGE = "com.example.kohbusidp.MESSAGE";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
+		getActionBar().hide();
 		//instantiate the buttons
 		timeBookingButton = (Button) findViewById(R.id.timeBasedBooking);
 		tripBookingButton = (Button) findViewById(R.id.tripBasedBooking);		
+		makeBookingButton = (Button) findViewById(R.id.makeABooking);
 		
 		//************************the intents
 		//for BOTH METHOD should link to a new file EACH that has an implementation of the tabhostactivity.
+		
+		makeBookingButton.setOnClickListener(new OnClickListener(){	
+			public void onClick(View v){
+				if(timeBookingButton.getVisibility() == View.VISIBLE){
+					timeBookingButton.setVisibility(View.GONE);
+					tripBookingButton.setVisibility(View.GONE);
+				}else{
+					timeBookingButton.setVisibility(View.VISIBLE);
+					tripBookingButton.setVisibility(View.VISIBLE);
+				}
+				
+			}
+		});
 		
 		timeBookingButton.setOnClickListener(new OnClickListener(){	
 			//Calls the login and authenticates the email & password

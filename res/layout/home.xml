@@ -6,27 +6,28 @@
    
 	<Button
     	 android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
+         android:layout_height="60dp"
          android:text="View Buses"
          android:id="@+id/viewBuses"   
-         android:textSize="30dip" 
-    />     
+         android:textSize="30dp"
+         android:textColor="#ffffff" 
+         android:background="@layout/home_button"/>     
 	
 	<Button
     	 android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
+         android:layout_height="60dp"
          android:text="Make A Booking"
          android:id="@+id/makeABooking"
-         android:textSize="30dip"
-    />
+         android:textSize="30dip" 
+         android:textColor="#ffffff"
+         android:background="@layout/home_button"/>
         
 	<LinearLayout
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          android:orientation="horizontal"
          android:id="@+id/panel1"
-         android:background="#ff444444"
-         >
+         android:background="#ff444444">
          
 	<Button
     	 android:layout_width="wrap_content"
@@ -37,7 +38,7 @@
          android:textColor="#ffffff"
          android:layout_marginTop="5dip"
          android:id="@+id/timeBasedBooking"
-   	/>
+         android:visibility="gone"/>
 	    
 	<Button
     	 android:layout_width="wrap_content"
@@ -48,15 +49,17 @@
          android:textColor="#ffffff"
          android:layout_marginTop="5dip"
          android:id="@+id/tripBasedBooking"
-   	/>
+         android:visibility="gone"/>
 	</LinearLayout>
 
 	<Button
 	    android:id="@+id/bkgHistory"
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
+	    android:layout_height="60dp"
 	    android:text="Booking History"
-	    android:textSize="30dip" />
+	    android:textSize="30dip" 
+	    android:textColor="#ffffff"
+	    android:background="@layout/home_button"/>
 
 </LinearLayout>
  
