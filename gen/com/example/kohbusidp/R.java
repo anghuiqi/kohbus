@@ -24,15 +24,23 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_action_remove=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int logo=0x7f020002;
+        public static final int homepage=0x7f020000;
+        public static final int ic_action_help=0x7f020001;
+        public static final int ic_action_remove=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int logo=0x7f020004;
+        public static final int processpage=0x7f020005;
+        public static final int time_based=0x7f020006;
+        public static final int trip_based=0x7f020007;
+        public static final int who_are_we=0x7f020008;
     }
     public static final class id {
-        public static final int addLoc=0x7f09002f;
-        public static final int addLocReturn=0x7f090034;
-        public static final int bkgHistory=0x7f090029;
-        public static final int comment=0x7f090040;
+        public static final int action_help=0x7f09004a;
+        public static final int addLoc=0x7f090036;
+        public static final int addLocReturn=0x7f09003b;
+        public static final int bkgHistory=0x7f090030;
+        public static final int businessProcess=0x7f090025;
+        public static final int comment=0x7f090047;
         public static final int comments=0x7f09001c;
         public static final int confirmation=0x7f090000;
         public static final int confirmedComments=0x7f09001d;
@@ -44,72 +52,81 @@ public final class R {
         public static final int confirmedStartDTReturn=0x7f090014;
         public static final int confirmedStopoverList=0x7f090007;
         public static final int confirmedStopoverListReturn=0x7f09000d;
-        public static final int contactPersonCheck=0x7f09003e;
+        public static final int contactPersonCheck=0x7f090045;
         public static final int datePicker1=0x7f090022;
         public static final int departLoc=0x7f090004;
         public static final int departLocReturn=0x7f09000a;
         public static final int departLocValue=0x7f090005;
         public static final int departLocValueReturn=0x7f09000b;
-        public static final int departureLoc=0x7f09002d;
-        public static final int departureLocReturn=0x7f090032;
+        public static final int departureLoc=0x7f090034;
+        public static final int departureLocReturn=0x7f090039;
         public static final int destLoc=0x7f090008;
         public static final int destLocReturn=0x7f09000e;
         public static final int destLocValue=0x7f090009;
         public static final int destLocValueReturn=0x7f09000f;
-        public static final int destinationLoc=0x7f090030;
-        public static final int destinationLocReturn=0x7f090035;
+        public static final int destinationLoc=0x7f090037;
+        public static final int destinationLocReturn=0x7f09003c;
         public static final int email=0x7f09001a;
-        public static final int layout=0x7f090041;
+        public static final int homepage=0x7f09002a;
+        public static final int layout=0x7f090048;
         public static final int linearLayout1=0x7f090021;
-        public static final int makeABooking=0x7f090025;
+        public static final int makeABooking=0x7f09002c;
         public static final int name=0x7f090016;
         public static final int noPassenger=0x7f090002;
         public static final int noPassengerValue=0x7f090003;
         public static final int number=0x7f090018;
-        public static final int panel1=0x7f090026;
-        public static final int passengersTextBox=0x7f09002c;
-        public static final int phone=0x7f09003f;
+        public static final int panel1=0x7f09002d;
+        public static final int passengersTextBox=0x7f090033;
+        public static final int phone=0x7f090046;
         public static final int quotation=0x7f09001f;
-        public static final int scrollView1=0x7f09002a;
-        public static final int scrollView2=0x7f090036;
-        public static final int scrollView3=0x7f09003c;
+        public static final int scrollView1=0x7f090031;
+        public static final int scrollView2=0x7f09003d;
+        public static final int scrollView3=0x7f090043;
+        public static final int scrollViewHelp=0x7f090024;
+        public static final int scrollViewHome=0x7f090029;
         public static final int startDT=0x7f090011;
         public static final int startDTReturn=0x7f090013;
-        public static final int startTimeEdit=0x7f090039;
-        public static final int startTimeReturnEdit=0x7f09003b;
-        public static final int startTimeReturnText=0x7f09003a;
-        public static final int startTimeText=0x7f090038;
+        public static final int startTimeEdit=0x7f090040;
+        public static final int startTimeReturnEdit=0x7f090042;
+        public static final int startTimeReturnText=0x7f090041;
+        public static final int startTimeText=0x7f09003f;
         public static final int step1=0x7f090001;
         public static final int step2=0x7f090010;
         public static final int step3=0x7f090015;
         public static final int step4=0x7f09001e;
         public static final int stopoverList=0x7f090006;
         public static final int stopoverListReturn=0x7f09000c;
-        public static final int submitButton=0x7f090042;
-        public static final int switchTimeLocationBased=0x7f090031;
-        public static final int tLayout=0x7f09002e;
-        public static final int tLayoutReturn=0x7f090033;
-        public static final int tab1=0x7f09002b;
-        public static final int tab2=0x7f090037;
-        public static final int tab3=0x7f09003d;
-        public static final int timeBasedBooking=0x7f090027;
+        public static final int submitButton=0x7f090049;
+        public static final int switchTimeLocationBased=0x7f090038;
+        public static final int tLayout=0x7f090035;
+        public static final int tLayoutReturn=0x7f09003a;
+        public static final int tab1=0x7f090032;
+        public static final int tab2=0x7f09003e;
+        public static final int tab3=0x7f090044;
+        public static final int timeBasedBooking=0x7f09002e;
         public static final int timePicker1=0x7f090023;
-        public static final int tripBasedBooking=0x7f090028;
-        public static final int viewBuses=0x7f090024;
+        public static final int time_based=0x7f090027;
+        public static final int tripBasedBooking=0x7f09002f;
+        public static final int trip_based=0x7f090026;
+        public static final int viewBuses=0x7f09002b;
+        public static final int who_are_we=0x7f090028;
     }
     public static final class layout {
         public static final int confirmation=0x7f030000;
         public static final int date_time_picker=0x7f030001;
-        public static final int home=0x7f030002;
-        public static final int home_button=0x7f030003;
-        public static final int item_list=0x7f030004;
-        public static final int make_booking=0x7f030005;
-        public static final int select_reaction=0x7f030006;
-        public static final int spinner_in_action_bar=0x7f030007;
-        public static final int templete_edittext=0x7f030008;
+        public static final int help_page=0x7f030002;
+        public static final int home=0x7f030003;
+        public static final int home_button=0x7f030004;
+        public static final int item_list=0x7f030005;
+        public static final int make_booking=0x7f030006;
+        public static final int select_reaction=0x7f030007;
+        public static final int spinner_in_action_bar=0x7f030008;
+        public static final int templete_addlocation=0x7f030009;
+        public static final int templete_edittext=0x7f03000a;
     }
     public static final class menu {
-        public static final int main=0x7f080000;
+        public static final int booking=0x7f080000;
+        public static final int main=0x7f080001;
     }
     public static final class string {
         public static final int action_forgot_password=0x7f05001f;
@@ -210,6 +227,7 @@ public final class R {
         public static final int view_profile=0x7f050007;
     }
     public static final class style {
+        public static final int ActionBar_Solid_MyApp_NavigationDropDownStyle_TextStyle=0x7f070008;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
@@ -241,17 +259,19 @@ public final class R {
          */
         public static final int EditTextStyle=0x7f070003;
         public static final int LoginFormContainer=0x7f070002;
+        public static final int MooSpinnerItem=0x7f070009;
+        public static final int MooTextAppearanceSpinnerItem=0x7f07000a;
         /**  ActionBar styles 
          */
         public static final int MyActionBar=0x7f070005;
         /**  ActionBar dropdown styles 
          */
         public static final int MyDropDownNav=0x7f070006;
+        public static final int MyTextAppearance=0x7f070007;
+        public static final int SpinnerItem=0x7f07000b;
+        public static final int SpinnerItem_DropDownItem=0x7f07000c;
         /**  style of the textField 
          */
         public static final int TextStyle=0x7f070004;
-        /**  Main Page Button styles 
-         */
-        public static final int homeButton=0x7f070007;
     }
 }

@@ -1,15 +1,27 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollViewHome"
+   	android:layout_width="fill_parent"
+   	android:layout_height="wrap_content">
+<LinearLayout 
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-   
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background = "#ffffff">
+
+    <ImageView
+        android:id="@+id/homepage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop ="60dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/homepage" />
+
 	<Button
     	 android:layout_width="fill_parent"
-         android:layout_height="60dp"
+         android:layout_height="60dp"   
          android:text="View Buses"
          android:id="@+id/viewBuses"   
-         android:textSize="30dp"
+         android:textSize="30sp"
          android:textColor="#ffffff" 
          android:background="@layout/home_button"/>     
 	
@@ -18,7 +30,7 @@
          android:layout_height="60dp"
          android:text="Make A Booking"
          android:id="@+id/makeABooking"
-         android:textSize="30dip" 
+         android:textSize="30sp" 
          android:textColor="#ffffff"
          android:background="@layout/home_button"/>
         
@@ -26,28 +38,35 @@
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          android:orientation="horizontal"
-         android:id="@+id/panel1"
-         android:background="#ff444444">
+         android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp"
+         android:id="@+id/panel1">
          
 	<Button
-    	 android:layout_width="wrap_content"
+    	 android:layout_width="fill_parent"
          android:layout_height="fill_parent"
          android:layout_weight="1"
-         android:text="Time Based Booking"
-         android:textSize="35dip"
+         android:text="Time-Based Booking"
+         android:textSize="30sp"
          android:textColor="#ffffff"
-         android:layout_marginTop="5dip"
+         android:layout_marginTop="2dip"
+         android:layout_marginBottom = "2dip"
+         android:layout_marginRight = "2dip"
+         android:background="#6BC5C5"
          android:id="@+id/timeBasedBooking"
          android:visibility="gone"/>
 	    
 	<Button
-    	 android:layout_width="wrap_content"
+    	 android:layout_width="fill_parent"
          android:layout_height="fill_parent"
          android:layout_weight="1"
-         android:text="Trip Based Booking"
-         android:textSize="35dip"
+         android:text="Trip-Based Booking"
+         android:textSize="30sp"
          android:textColor="#ffffff"
-         android:layout_marginTop="5dip"
+         android:layout_marginTop="2dip"
+         android:layout_marginBottom = "2dip"
+         android:layout_marginLeft = "2dip"
+         android:background="#6BC5C5"
          android:id="@+id/tripBasedBooking"
          android:visibility="gone"/>
 	</LinearLayout>
@@ -57,9 +76,10 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="60dp"
 	    android:text="Booking History"
-	    android:textSize="30dip" 
+	    android:textSize="30sp" 
 	    android:textColor="#ffffff"
 	    android:background="@layout/home_button"/>
 
 </LinearLayout>
+</ScrollView>
  

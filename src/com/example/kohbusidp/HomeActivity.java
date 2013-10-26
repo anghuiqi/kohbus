@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -27,7 +28,9 @@ public class HomeActivity extends Activity implements OnClickListener{
 		timeBookingButton = (Button) findViewById(R.id.timeBasedBooking);
 		tripBookingButton = (Button) findViewById(R.id.tripBasedBooking);		
 		makeBookingButton = (Button) findViewById(R.id.makeABooking);
-		
+
+
+		ImageView home_image = (ImageView) findViewById(R.id.homepage);
 		//************************the intents
 		//for BOTH METHOD should link to a new file EACH that has an implementation of the tabhostactivity.
 		

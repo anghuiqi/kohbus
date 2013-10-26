@@ -41,8 +41,9 @@
 					<!-- start of departure location textbox -->
 					<AutoCompleteTextView 
 					    android:id="@+id/departureLoc"
-				        android:layout_marginTop="10dp"	
+				        android:layout_marginTop="20dp"	
 				        android:hint="@string/departure_location"
+				        android:layout_marginBottom = "0dp"
 				        android:background="@layout/templete_edittext"
 				        style="@style/EditTextStyle"/>	
 				       
@@ -60,11 +61,9 @@
 					    android:id="@+id/addLoc"
 					    android:layout_width="match_parent"
 					    android:layout_height="50dp"
-					    android:layout_marginLeft="30dp"
-					    android:layout_marginRight="30dp"
-					    android:layout_marginBottom="10dp"
+					    android:textColor="#ffffff" 
 					    android:text="@string/add_location" 
-					    android:background="@layout/templete_edittext"/>
+					    android:background="@layout/templete_addlocation"/>
 				    <!-- end of add location button -->
 				    
 					<!-- start of destination location textbox -->
@@ -78,7 +77,7 @@
 				        android:layout_width="wrap_content"
 				        android:layout_height="10dp"
 				        android:layout_gravity="center_horizontal"
-				        android:layout_marginTop="20dp"
+				        android:layout_marginTop="10dp"
 				        android:textOff="Single Trip"
 				        android:textOn="Return Trip" />
 				    <!-- end of the switch button - single/returen trip -->
@@ -86,6 +85,7 @@
 			  		<!-- start of departure location textbox for returen trip -->
 					<AutoCompleteTextView android:id="@+id/departureLocReturn"
 				        android:layout_marginTop="10dp"
+				        android:layout_marginBottom = "0dp"
 				        android:hint="@string/departure_location"
 				        android:background="@layout/templete_edittext"
 				        style="@style/EditTextStyle"
@@ -105,12 +105,10 @@
 					    android:id="@+id/addLocReturn"
 					    android:layout_width="match_parent"
 					    android:layout_height="50dp"
-					    android:layout_marginLeft="30dp"
-					    android:layout_marginRight="30dp"
-					    android:layout_marginBottom="10dp"
 					    android:text="@string/add_location" 
 					    android:visibility="gone"
-					    android:background="@layout/templete_edittext"/>
+					    android:background="@layout/templete_addlocation"
+					    android:textColor="#ffffff" />
 
 					<!-- start of destination location textbox for returen trip-->
 				    <AutoCompleteTextView  android:id="@+id/destinationLocReturn"
@@ -144,6 +142,7 @@
 					       	android:cursorVisible="false" 
 				        	android:focusable="false" 
 				        	android:focusableInTouchMode="false"
+				        	android:text=""
 					        android:background="@layout/templete_edittext"
 					        style="@style/EditTextStyle"/>
 					   	
@@ -160,6 +159,7 @@
 					       	android:cursorVisible="false" 
 				        	android:focusable="false" 
 				        	android:focusableInTouchMode="false"
+				        	android:text=""
 					        android:visibility="gone"
 					        android:background="@layout/templete_edittext"
 					        style="@style/EditTextStyle"/>
@@ -231,6 +231,8 @@
 				            android:layout_marginBottom="50dip"
 				            android:layout_alignParentBottom="true"
 				            android:layout_centerHorizontal="true"
+				            android:background="#69A9C2"
+				            android:textColor="#ffffff"
 				            android:text="@string/submit"/>
 		    			<!-- end of submit button -->
 					</RelativeLayout> 

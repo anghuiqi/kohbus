@@ -33,6 +33,9 @@
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="com.example.kohbusidp.HomeActivity" />
 	    </activity>
+	    
+	   	<activity
+	        android:name="com.example.kohbusidp.HelpActivity" />
     </application>
     
 	<uses-permission android:name="android.permission.INTERNET" />

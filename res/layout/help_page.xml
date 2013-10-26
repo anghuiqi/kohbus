@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollViewHelp"
+	android:layout_width="wrap_content"
+   	android:layout_height="wrap_content">
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="#ffffff"
+	    android:orientation="vertical" >
+	    <ImageView
+	        android:id="@+id/businessProcess"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/processpage" />
+	    <ImageView
+	        android:id="@+id/trip_based"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/trip_based" />
+	    <ImageView
+	        android:id="@+id/time_based"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/time_based" />
+	    <ImageView
+	        android:id="@+id/who_are_we"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/who_are_we" />
+	</LinearLayout>
+</ScrollView>
